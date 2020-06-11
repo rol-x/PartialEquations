@@ -8,7 +8,7 @@ using namespace std;
 
 //    IMPLEMENTATION NOTES:
 // 1. Following the conventions of mathmatical naming of
-//	  axes with respect to their dimensions, variable 'z'
+//    axes with respect to their dimensions, variable 'z'
 //	  has been changed to 'x'.
 // 2. Following the universal conventions for naming functions,
 //    the name of function 'w' has been changed to 'y'.
@@ -19,12 +19,12 @@ using namespace std;
 // 5. For the same reason, boundary conditions functions
 //    are named x_0 and x_n, signifying setting the variable 'x' constant.
 // 6. The name of the coefficient 'a^2' has been changed to 'A', since
-//	  the use of 'a' without the square is absent in the method.
+//    the use of 'a' without the square is absent in the method.
 // 7. The step in the t axis has been changed from 'h' to 'h_t'
-//	  for better readability.
+//    for better readability.
 // 8. For the same reason, the step in the x axis has been changed to 'h_x'.
 // 9. For practical reasons, predetermined values are defined outside
-//	  main function, but due to unique naming no problems arise.
+//    main function, but due to unique naming no problems arise.
 
 // Coefficient A.
 double A = 0.3;
