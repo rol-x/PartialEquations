@@ -20,8 +20,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data.txt">
+    <None Include="plot.m">
       <Filter>Source Files</Filter>
-    </Text>
+    </None>
   </ItemGroup>
 </Project>

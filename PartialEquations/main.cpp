@@ -1,3 +1,4 @@
+// Karol Latos & Kamila Kwieciñska
 #include <iostream>
 #include <fstream>
 #include <math.h>
@@ -65,24 +66,66 @@ double f(double t_i, double x_j)
 	return 0;
 }
 
-// Function saving a two-dimensional array of function values, size x by y, to a file.
-void saveToFile(double ** space, int x, int y)
+// Function implementing the octave code visualizing the 3D space of points.
+void convertToOctaveCode(double ** space, int x, int y)
 {
 	try
 	{
 		// Creating a file object and linking it to a text file on a disk.
 		fstream dataFile;
-		dataFile.open("data.txt", ios::out);
-		
+		dataFile.open("plot.m", ios::out);
+
 		// Opening of the text file failed - exception handling.
 		if (!dataFile)
 			throw "Error opening the output file!";
 
-		// Writing each point of the space to a seperate line.
+		// Introducing the authors.
+		dataFile << "# Karol Latos & Kamila Kwieciñska" << endl;
+
+		// Writing the t vector.
+		dataFile << endl << "t = [";
 		for (int i = 0; i < x; i++)
-			for (int j = 0; j < y; j++)
-				dataFile << i * h_t << "\t" << j * h_x << "\t" << space[i][j] << endl;
-		cout << "Successfully written data to the output file!" << endl;
+		{
+			dataFile << i * h_t;
+			if (i < x - 1)
+				dataFile << " ";
+			else
+				dataFile << "];\n";
+		}
+
+		// Writing the x vector.
+		dataFile << endl << "x = [";
+		for (int j = 0; j < y; j++)
+		{
+			dataFile << j * h_x;
+			if (j < y - 1)
+				dataFile << "; ";
+			else
+				dataFile << "];\n";
+		}
+
+		// Writing the y matrix.
+		dataFile << endl << "y = [";
+		for (int j = 0; j < y; j++)
+			for (int i = 0; i < x; i++)
+			{
+				dataFile << space[i][j];
+				if (i < x - 1)
+					dataFile << " ";
+				else if (j < y - 1)
+					dataFile << ";\n";
+				else
+					dataFile << "];\n";
+			}
+
+		// Calling the plotting function.
+		dataFile << endl << "mesh(t, x, y)" << endl;
+
+		// Labeling the axes and titling the graph.
+		dataFile << "ylabel \"t-axis\";\nxlabel \"x-axis\";\nzlabel \"y-axis\";\ntitle(\"Surface of y(t, x)\");";
+
+		// Success confirmation.
+		cout << "Successfully written code to the output file!" << endl;
 	}
 	// Displaying the error message - exception handling.
 	catch (const char* message)
@@ -121,8 +164,8 @@ int main()
 		for (int j = 1; j < columns - 1; j++)
 			y[i + 1][j] = y[i][j] + A * h_t * pow(h_x, -2) * (y[i][j - 1] - 2 * y[i][j] + y[i][j + 1]) + h_t * f(i * h_t, j * h_x);
 
-	// The array of values of y is finally saved to a file.
-	saveToFile(y, rows, columns);
+	// The array of values of y is finally converted to viewable form.
+	convertToOctaveCode(y, rows, columns);
 
 	system("pause");
 	return 0;
