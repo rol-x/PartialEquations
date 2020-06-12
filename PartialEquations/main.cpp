@@ -8,7 +8,7 @@ constexpr double pi = 3.14159265358;
 using namespace std;
 
 //    IMPLEMENTATION NOTES:
-// 1. Following the conventions of mathmatical naming of
+// 1. Following the conventions of mathematical naming of
 //    axes with respect to their dimensions, variable 'z'
 //	  has been changed to 'x'.
 // 2. Following the universal conventions for naming functions,
@@ -28,7 +28,7 @@ using namespace std;
 //    main function, but due to unique naming no problems arise.
 
 // Coefficient A.
-double A = 0.3;
+double A = 0.05;
 
 // Step in the t axis.
 double h_t = 0.2;
@@ -37,7 +37,7 @@ double h_t = 0.2;
 double h_x = 0.1;
 
 // Upper boundary for the t variable.
-double t_max = 1;
+double t_max = 2;
 
 // Upper boundary for the x variable.
 double x_max = 1;
