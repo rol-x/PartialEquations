@@ -1,5 +1,10 @@
 # Karol Latos & Kamila Kwieciñska
 
+printf("A: 0.05\n");
+printf("h_x: 0.1\n");
+printf("h_t: 0.2\n");
+printf("Mean square error: 6.67462e-05\n");
+
 t = [0 0.2 0.4 0.6 0.8 1 1.2 1.4 1.6 1.8 2];
 
 x = [0; 0.1; 0.2; 0.3; 0.4; 0.5; 0.6; 0.7; 0.8; 0.9; 1];
@@ -17,7 +22,7 @@ y = [0 0 0 0 0 0 0 0 0 0 0;
 0 0 0 0 0 0 0 0 0 0 0];
 
 mesh(t, x, y)
-ylabel "t-axis";
-xlabel "x-axis";
+xlabel "t-axis";
+ylabel "x-axis";
 zlabel "y-axis";
 title("Surface of y(t, x)");

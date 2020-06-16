@@ -3,7 +3,8 @@
 #include <fstream>
 #include <math.h>
 
-constexpr double pi = 3.14159265358;
+constexpr double pi = 3.14159265359;
+constexpr double e = 2.71828182846;
 
 using namespace std;
 
@@ -66,8 +67,24 @@ double f(double t_i, double x_j)
 	return 0;
 }
 
-// Function implementing the octave code visualizing the 3D space of points.
-void convertToOctaveCode(double ** space, int x, int y)
+// Analytically found exact solution y(t, x).
+double exactSolution(double t, double x)
+{
+	return pow(e, -pi * pi * A * t) * sin(pi * x);
+}
+
+// Calculates the MSE value given net approximation of a surface and predefined exact solution.
+double findMeanSquareError(double ** y, int columns, int rows)
+{
+	double errorValue = 0;
+	for (int i = 0; i < columns; i++)
+		for (int j = 0; j < rows; j++)
+			errorValue += pow(exactSolution(i * h_t, j * h_x) - y[i][j], 2);
+	return errorValue / (rows * columns);
+}
+
+// Function implementing the octave code visualizing the 3D space of points with initial data shown.
+void convertToOctaveCode(double ** space, int x, int y, double errorValue)
 {
 	try
 	{
@@ -81,6 +98,12 @@ void convertToOctaveCode(double ** space, int x, int y)
 
 		// Introducing the authors.
 		dataFile << "# Karol Latos & Kamila Kwieciñska" << endl;
+
+		// Writing initial data.
+		dataFile << endl << "printf(\"A: " << A << "\\n\");";
+		dataFile << endl << "printf(\"h_x: " << h_x << "\\n\");";
+		dataFile << endl << "printf(\"h_t: " << h_t << "\\n\");";
+		dataFile << endl << "printf(\"Mean square error: " << errorValue << "\\n\");\n";
 
 		// Writing the t vector.
 		dataFile << endl << "t = [";
@@ -122,7 +145,7 @@ void convertToOctaveCode(double ** space, int x, int y)
 		dataFile << endl << "mesh(t, x, y)" << endl;
 
 		// Labeling the axes and titling the graph.
-		dataFile << "ylabel \"t-axis\";\nxlabel \"x-axis\";\nzlabel \"y-axis\";\ntitle(\"Surface of y(t, x)\");";
+		dataFile << "xlabel \"t-axis\";\nylabel \"x-axis\";\nzlabel \"y-axis\";\ntitle(\"Surface of y(t, x)\");";
 
 		// Success confirmation.
 		cout << "Successfully written code to the output file!" << endl;
@@ -164,8 +187,11 @@ int main()
 		for (int j = 1; j < columns - 1; j++)
 			y[i + 1][j] = y[i][j] + A * h_t * pow(h_x, -2) * (y[i][j - 1] - 2 * y[i][j] + y[i][j + 1]) + h_t * f(i * h_t, j * h_x);
 
+	// Calculate the MSE value between our net approximation and exact solution.
+	double meanSquareError = findMeanSquareError(y, rows, columns);
+
 	// The array of values of y is finally converted to viewable form.
-	convertToOctaveCode(y, rows, columns);
+	convertToOctaveCode(y, rows, columns, meanSquareError);
 
 	system("pause");
 	return 0;
